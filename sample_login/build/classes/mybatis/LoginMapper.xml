@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.LoginMapper">
+	<select id="getLoginUser" parameterType="LoginDTO" resultType="LoginDTO">
+		<![CDATA[
+			SELECT * 
+			FROM USERLIST WHERE USERID=#{userid} AND PWD=#{pwd}
+		]]>
+	</select>
+	
+	<insert id="JoinUser"  parameterType="LoginDTO">
+		<![CDATA[
+			INSERT INTO USERLIST(USERID,PWD,NAME,EMAIL,ADDRESS,PROFILEIMG,CHK) 
+				VALUES(#{userid},#{pwd},#{name},#{email},#{address},'unimg.jpg','user')
+			]]>
+	</insert>
+	
+	<select id="getUserList" parameterType="LoginDTO"  resultType="LoginDTO">
+		<![CDATA[
+			SELECT * FROM USERLIST
+		]]>
+	</select>
+	<select id="getUserCheck" parameterType="LoginDTO"  resultType="LoginDTO">
+		<![CDATA[
+			SELECT * FROM USERLIST WHERE USERID = #{id}
+		]]>
+	</select>
+	
+	<select id="userExist" parameterType="LoginDTO"  resultType="LoginDTO">
+	<![CDATA[
+		SELECT * FROM USERLIST WHERE USERID=#{userid}
+	]]>
+	</select>
+	
+	<update id="profileImgInsert" parameterType="LoginDTO">
+		<![CDATA[
+			UPDATE USERLIST SET PROFILEIMG=#{profileimg} WHERE USERID=#{userid}
+		]]>
+	</update>
+	
+		<update id="infoChange" parameterType="LoginDTO" >
+		<![CDATA[
+			UPDATE USERLIST SET PWD=#{pwd}, EMAIL=#{email}, ADDRESS=#{address} WHERE USERID=#{userid}
+		]]>
+	</update>
+	
+	<select id="getidList" resultType="idDTO">
+		<![CDATA[
+			SELECT USERID,PROFILEIMG FROM USERLIST ORDER BY USERID
+		]]>
+	</select>
+	
+	<select id="getclickidProfileImg" parameterType="java.lang.String" resultType="java.lang.String">
+		<![CDATA[
+			SELECT PROFILEIMG FROM USERLIST WHERE USERID=#{userid}
+		]]>
+	</select>
+	
+
+</mapper>

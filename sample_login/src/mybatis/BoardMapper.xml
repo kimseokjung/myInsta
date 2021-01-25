@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.BoardMapper">
+	
+	<select id="getBoardList" parameterType="hashmap" resultType="BoardDTO">
+		<![CDATA[
+         SELECT IDX,USERID,WRITEUSERIMG,IMGPATH,CONTENT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME 
+         FROM (SELECT ROWNUM RN, AA.* 
+               FROM (SELECT * FROM BOARDLIST ORDER BY IDX DESC)AA)
+         WHERE RN>=#{startNum} AND RN<=#{endNum}
+ 		]]> 
+	</select>
+	
+	<select id="getFindMyBoardList" resultType="BoardDTO">
+		<![CDATA[
+         SELECT IDX,USERID,WRITEUSERIMG,IMGPATH,CONTENT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME 
+         FROM BOARDLIST ORDER BY IDX DESC
+ 		]]> 
+	</select>
+	
+	<insert id="boardInsert" parameterType="BoardDTO">
+		<![CDATA[
+			INSERT INTO BOARDLIST
+			VALUES(BOARD_SEQ.NEXTVAL,#{userid},#{writeuserimg},#{imgPath},#{content},SYSDATE)
+		]]>
+	</insert>
+	
+	<select id="getBoard" parameterType="java.lang.Integer" resultType="BoardDTO">
+		<![CDATA[
+			SELECT * FROM BOARDLIST WHERE IDX=#{seq}
+		]]>
+	</select>
+	
+	<delete id="boardDelete" parameterType="java.lang.Integer">
+		<![CDATA[
+			DELETE BOARDLIST WHERE IDX=#{seq}
+		]]>
+	</delete>
+	
+	<select id="getBoardView" resultType="BoardDTO">
+		<![CDATA[
+			SELECT * FROM BOARDLIST WHERE IDX=#{idx}
+		]]>
+	</select>
+	
+	<select id="getProfileList" resultType="BoardDTO">
+      <![CDATA[
+         SELECT IDX,USERID,WRITEUSERIMG,IMGPATH,CONTENT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME 
+          FROM BOARDLIST WHERE USERID=#{userid} ORDER BY IDX DESC
+      ]]>
+   </select>
+	
+	<update id="getUpdateUser" parameterType="BoardDTO">
+		<![CDATA[
+			UPDATE BOARDLIST SET CONTENT=#{content}, IMGPATH=#{imgPath} WHERE IDX=#{idx}
+		]]>
+	</update>
+	<update id="getBoardChangeWriteProtile" parameterType="BoardDTO">
+		<![CDATA[
+			UPDATE BOARDLIST SET WRITEUSERIMG=#{profileimg} WHERE USERID=#{userid}
+		]]>
+	</update>
+	
+	<select id="getidList" parameterType="String" resultType="BoardDTO">
+		<![CDATA[
+			SELECT * FROM BOARDLIST WHERE USERID=#{userid}
+		]]>
+	</select>
+	
+		<!-- 총 게시물 개수 구하기 -->
+	<select id="getTotalArticle" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) FROM BOARDLIST
+		]]>
+	</select>
+	
+	
+	
+	
+ 	<select id="rec_check" parameterType="recDTO" resultType="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*) FROM REC WHERE userid=#{userid} AND idx=#{idx}
+		]]>
+	</select>
+	
+	<insert id="rec_update" parameterType="recDTO">
+		<![CDATA[
+		INSERT INTO REC VALUES(#{userid}, #{idx})
+		]]>
+	</insert>
+	
+	<select id="rec_count" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*) FROM REC WHERE IDX=#{idx}
+		]]>
+	</select>
+	
+	<delete id="rec_delete" parameterType="recDTO">
+		<![CDATA[
+		DELETE FROM REC WHERE userid = #{userid} AND idx = #{idx}
+		]]>
+	</delete> 
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

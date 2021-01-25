@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.ReplyMapper">
+
+	<select id="getRelpyList" resultType="ReplyDTO">
+		<![CDATA[
+			SELECT * FROM REPLY WHERE BOARDIDX=#{boardidx} ORDER BY IDX DESC
+		]]>
+	</select>
+	
+	<insert id="getInsertReply" parameterType="ReplyDTO">
+		<![CDATA[
+ 			INSERT INTO REPLY(IDX,BOARDIDX,WRITEID,CONTENT,LOGTIME)
+ 			VALUES(REPLY_SEQ.NEXTVAL,#{boardidx},#{writeid},#{content},SYSDATE)
+		]]>
+	</insert>
+	
+	<delete id="getDeleteReply" parameterType="java.util.ArrayList">
+		<![CDATA[
+ 			DELETE FROM REPLY WHERE BOARDIDX=#{boardidx} AND IDX=#{idx}
+		]]>
+	</delete>
+	
+	<delete id="getUpdateReply" parameterType="ReplyDTO">
+		<![CDATA[
+ 			UPDATE REPLY SET CONTENT= #{content} WHERE BOARDIDX=#{boardidx} AND IDX=#{idx}
+		]]>
+	</delete>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
