@@ -22,6 +22,11 @@
 			SELECT * FROM USERLIST
 		]]>
 	</select>
+		<select id="getSearchUser" parameterType="idDTO"  resultType="idDTO">
+		<![CDATA[
+			SELECT * FROM USERLIST
+		]]>
+	</select>
 	<select id="getUserCheck" parameterType="LoginDTO"  resultType="LoginDTO">
 		<![CDATA[
 			SELECT * FROM USERLIST WHERE USERID = #{id}
@@ -57,6 +62,7 @@
 			SELECT PROFILEIMG FROM USERLIST WHERE USERID=#{userid}
 		]]>
 	</select>
+	
 	
 
 </mapper>

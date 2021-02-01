@@ -20,7 +20,7 @@ import com.login.dao.login_dao;
 import com.login.entity.login_entity;
 
 
-@WebServlet(name = "AndroidIdCheck", urlPatterns = { "/android_idcheck" })
+@WebServlet(name = "AndroidWhoAmI", urlPatterns = { "/android_who_am_i" })
 public class androidChkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -28,32 +28,39 @@ public class androidChkServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		////////////////////////////////////
-		System.out.println("안드로이드 회원가입 아이디 체크 service");
+		System.out.println("안드로이드 회원정보 수정 service");
 		////////////////////////////////////
 		
-		login_entity Inputentity = new login_entity();
+		login_entity entity = new login_entity();
 		login_dao dao = new login_dao();
 		
 		
-		Inputentity.setUserid(request.getParameter("input_id"));
+		entity.setUserid(request.getParameter("userid"));
+		entity.setPwd(request.getParameter("pwd"));
 
+		System.out.println(""+request.getParameter("userid"));
+		System.out.println(""+request.getParameter("pwd"));
+		login_entity checkentity = dao.findUserInfo(entity);
 		
-		login_entity checkentity = dao.existCheck(Inputentity.getUserid());
 		
-		JSONObject loginCk = new JSONObject();
-		
-		if(checkentity==null) {
+		JSONObject userInfo = new JSONObject();
+		if(checkentity != null) {
 			System.out.println("사용가능한 아이디");
-			loginCk.put("result", "OK");
+			userInfo.put("result", "OK");
+			userInfo.put("userid", checkentity.getUserid());
+			userInfo.put("name", checkentity.getName());
+			userInfo.put("email", checkentity.getEmail());
+			userInfo.put("addr", checkentity.getAddress());
+			userInfo.put("chk", checkentity.getChk());
 		}else {
-			System.out.println("아이디 중복");
-			loginCk.put("result", "NK");
+			System.out.println("찾을 수 없습니다.");
+			userInfo.put("result", "NK");
 		}
-		loginCk.put("code", "101");// 아이디 체크에서 복귀
+		userInfo.put("code", "101");// 아이디 체크에서 복귀
 
 		response.setContentType("application/x-json; charset=UTF-8");
-		System.out.println(loginCk.toString());
-		response.getWriter().print(loginCk.toString());
+		System.out.println(userInfo.toString());
+		response.getWriter().print(userInfo.toString());
 		
 		
 	}

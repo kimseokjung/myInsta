@@ -132,6 +132,7 @@ public class login_dao {
 		public String getClickidProfileImg(String userid) {
 			SqlSession session = factory.openSession();
 			String img = session.selectOne("mybatis.LoginMapper.getclickidProfileImg",userid);
+			session.close();
 			return img;
 		}
 
@@ -144,7 +145,25 @@ public class login_dao {
 			return chkUserid;
 		}
 
+		public login_entity findUserInfo(login_entity entity) {
+			SqlSession session = factory.openSession();
+			login_entity user = session.selectOne("mybatis.LoginMapper.getLoginUser",entity);
+			
+			session.close();
+			
+			return user;
+		}
 
+		public List<id_entity> getSearchUser(){
+			
+			SqlSession session = factory.openSession();
+			
+			List<id_entity> list=session.selectList("mybatis.LoginMapper.getSearchUser");
+			session.close();
+			
+			return list;
+			
+		}
 
 		
 

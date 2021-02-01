@@ -19,7 +19,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 
-@WebServlet(name = "Androidlike", urlPatterns = { "/android_like" })
+@WebServlet(name = "AndroidProfileImgChange", urlPatterns = { "/android_profile_img_change" })
 public class androidProfileChangeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -27,9 +27,6 @@ public class androidProfileChangeServlet extends HttpServlet {
 		////////////////////////////////////
 		System.out.println("Android Profile Img Change Service Enter");
 		////////////////////////////////////
-		int idx= Integer.parseInt(request.getParameter("idx"));
-		String userid=request.getParameter("userid");
-		
 		
 		//실제 저장 경로
 		String realFolder = request.getServletContext().getRealPath("/profile_img");
@@ -38,32 +35,31 @@ public class androidProfileChangeServlet extends HttpServlet {
 		//파일업로드
 		MultipartRequest multi=new MultipartRequest(
 		        request, realFolder, 5*1024*1024, "UTF-8",new DefaultFileRenamePolicy());
-		HttpSession session = request.getSession();
-		login_entity entity = (login_entity)session.getAttribute("logOK");
-		imgBoard_dao boardDao= new imgBoard_dao();
 		
-		System.out.println(multi.getFilesystemName("imgpath"));
+		imgBoard_dao boardDao= new imgBoard_dao();
+		login_entity entity = new login_entity();
+		
+		System.out.println("멀티파트로 받음");
+		System.out.println(multi.getFilesystemName("files"));
+		
+		String userid = multi.getParameter("userid");
+		System.out.println(userid);
 		String unimg = "unimg.jpg";
-		if(multi.getFilesystemName("imgpath") == null) {
+		entity.setUserid(userid);
+		if(multi.getFilesystemName("files") == null) {
 			entity.setProfileimg(unimg);
 		}else {
-			entity.setProfileimg(multi.getFilesystemName("imgpath"));
+			entity.setProfileimg(multi.getFilesystemName("files"));
 		}
-		
-		System.out.println(entity.getUserid());
-		System.out.println(entity.getProfileimg());
 	      
 		login_dao loginDao = new login_dao();
 		int n = loginDao.profileimgInsert(entity);
 		
 		if(n > 0) {
 			boardDao.getBoardChangeWriteProtile(entity); //프로필 이미지 수정 보드에 전체 수정
+			
+			response.setContentType("application/x-json; charset=UTF-8");
+			response.getWriter().print(String.valueOf(n));
 		}
-		
-		response.setContentType("application/x-json; charset=UTF-8");
-		response.getWriter().print(n);
-		
 	}
-
-
 }

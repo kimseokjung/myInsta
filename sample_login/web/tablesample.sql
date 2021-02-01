@@ -17,6 +17,10 @@ insert into userlist(userid,pwd,name,email,address,profileimg,chk) values('pro',
 delete from userlist where userid='admin'
 delete from rec where userid='admin'
 
+select * from userlist;
+
+select * from userlist where userid='admin' and pwd='1111';
+update userlist set email='adsd@naver.com',address='용산구 우리집' where userid='admin';
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 create table boardlist(

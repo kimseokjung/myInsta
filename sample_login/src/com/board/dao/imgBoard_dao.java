@@ -246,6 +246,8 @@ public class imgBoard_dao {
 		session.close();
 		return list;
 	}
+
+
 	
 	
 	
