@@ -63,6 +63,16 @@
 		]]>
 	</select>
 	
+	<update id="androidUserInfoChange" parameterType="LoginDTO" >
+		<![CDATA[
+			UPDATE USERLIST SET NAME=#{name}, EMAIL=#{email}, ADDRESS=#{address} WHERE USERID=#{userid}
+		]]>
+	</update>
+		<update id="androidUserInfoChangePw" parameterType="LoginDTO" >
+		<![CDATA[
+			UPDATE USERLIST SET PWD=#{pwd}, EMAIL=#{email}, ADDRESS=#{address} WHERE USERID=#{userid}
+		]]>
+	</update>
 	
 
 </mapper>

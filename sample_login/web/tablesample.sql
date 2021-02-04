@@ -69,10 +69,40 @@ create sequence reply_seq increment by 1 start with 1 nocycle nocache;
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+create table follow(
+idx number(6) primary key,	
+target varchar2(15) not null,
+userid varchar2(15) not null);
+
+create table follower(
+idx number(6) primary key,	
+target varchar2(15) not null,
+userid varchar2(15) not null);
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+create sequence follow_seq increment by 1 start with 1 nocycle nocache;
+create sequence follower_seq increment by 1 start with 1 nocycle nocache;
+
+insert into follow(idx,target,userid)
+values(follow_seq.nextval,'admin','test13');
+insert into follow(idx,target,userid)
+values(follow_seq.nextval,'admin','test14');
+insert into follow(idx,target,userid)
+values(follow_seq.nextval,'xxx','test14');
+insert into follow(idx,target,userid)
+values(follow_seq.nextval,'xxx','admin');
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
 select * from userlist ;
 select * from boardlist;
 select * from reply;
+select * from follow;
 
 select * from userlist where userid = 'admin';
 

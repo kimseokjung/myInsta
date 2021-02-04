@@ -7,6 +7,7 @@
 	<typeAliases>
 
 	<typeAlias type="com.login.entity.login_entity" alias="LoginDTO" />
+	<typeAlias type="com.follow.follow_entity" alias="FollowDTO" />
 	<typeAlias type="com.login.entity.id_entity" alias="idDTO" />
 	<typeAlias type="com.board.entity.imgBoard_entity" alias="BoardDTO" />
 	<typeAlias type="com.reply.entity.imgReply_entity" alias="ReplyDTO" />
@@ -30,6 +31,7 @@
 		<mapper resource="mybatis/LoginMapper.xml"/> 
 		<mapper resource="mybatis/BoardMapper.xml"/>
 		<mapper resource="mybatis/ReplyMapper.xml"/>
+		<mapper resource="mybatis/FollowMapper.xml"/>
 	</mappers>
 </configuration>
 

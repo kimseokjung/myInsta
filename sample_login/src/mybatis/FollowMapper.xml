@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.FollowMapper">
+
+
+	<select id="follower" parameterType="FollowDTO" resultType="FollowDTO">
+		<![CDATA[
+			SELECT * 
+			FROM FOLLOW WHERE TARGET=#{target}
+		]]>
+	</select>
+	
+	<select id="following" parameterType="FollowDTO" resultType="FollowDTO">
+		<![CDATA[
+			SELECT * 
+			FROM FOLLOW WHERE USERID=#{userid}
+		]]>
+	</select>
+	
+	<insert id="addFollow"  parameterType="FollowDTO">
+		<![CDATA[
+			INSERT INTO FOLLOW(IDX,TARGET,USERID) 
+				VALUES(REPLY_SEQ.NEXTVAL,#{target},#{userid})
+			]]>
+	</insert>
+	
+	<delete id="deleteFollow" parameterType="FollowDTO">
+		<![CDATA[
+ 			DELETE FROM FOLLOW WHERE TARGET=#{target} AND USERID=#{userid}
+		]]>
+	</delete>
+	
+
+</mapper>

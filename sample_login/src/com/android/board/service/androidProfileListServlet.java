@@ -33,7 +33,7 @@ public class androidProfileListServlet extends HttpServlet {
 	imgBoard_dao dao = new imgBoard_dao();
 	List<imgBoard_entity> polist = dao.getProfileList(userid);
 	
-	
+	JSONObject jsonObject = new JSONObject();
 	JSONArray profileArr = new JSONArray();
 	String count = "";
 	String isChecked = "";
@@ -68,12 +68,18 @@ public class androidProfileListServlet extends HttpServlet {
 			profileArr.add(profileObj);
 
 		}
+		jsonObject.put("code", "700");
+		jsonObject.put("result", "OK");
+		jsonObject.put("list", profileArr);
 
+	}else {
+		jsonObject.put("code", "700");
+		jsonObject.put("result", "NK");
 	}
 	
 	response.setContentType("application/x-json; charset=UTF-8");
-	System.out.println(profileArr.toJSONString());
-	response.getWriter().print(profileArr.toJSONString());
+	System.out.println(jsonObject.toJSONString());
+	response.getWriter().print(jsonObject.toJSONString());
 
 }
 

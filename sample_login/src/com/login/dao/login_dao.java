@@ -102,13 +102,13 @@ public class login_dao {
 			return n;
 		}
 
-		public int infoChange(login_entity changeentity) {
+		public int infoChange(login_entity changeEntity) {
 			
 			SqlSession session=factory.openSession();
 			int n = 0;
 			
 			try {
-				n = session.update("mybatis.LoginMapper.infoChange",changeentity);
+				n = session.update("mybatis.LoginMapper.infoChange",changeEntity);
 				if(n > 0) {
 					session.commit();
 				}
@@ -163,6 +163,29 @@ public class login_dao {
 			
 			return list;
 			
+		}
+
+		public int androidUserInfoChange(login_entity changeEntity) {
+			SqlSession session=factory.openSession();
+			int n = 0;
+			
+			try {
+				if(!changeEntity.getName().equalsIgnoreCase("")) {
+					n = session.update("mybatis.LoginMapper.androidUserInfoChange",changeEntity);
+				}else {
+					n = session.update("mybatis.LoginMapper.androidUserInfoChangePw",changeEntity);
+				}
+				if(n > 0) {
+					session.commit();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				session.rollback();
+			}finally {
+				session.close();
+			}
+			System.out.println(" info Update OK");
+			return n;
 		}
 
 		
